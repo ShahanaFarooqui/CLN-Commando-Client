@@ -3,4 +3,4 @@ Core Lightning Commando Client
 
 # How to Run
 - npm install
-- node grpc-client.js
+- node commando-client.js
