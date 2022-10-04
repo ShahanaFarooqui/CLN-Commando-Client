@@ -55,7 +55,7 @@ class CommandoClient extends EventEmitter {
                     var Act3 = _self.noise.initiatorAct3();
                     _self.socket.send(Act3);
                     console.log('Connection Established!');
-                } else if(data.length === 81) {
+                } else if(data.length === 83) {
                     var len = _self.noise.decryptLength(data.slice(0,18));
                     var inti = data.slice(18,18+len+16);
                     let init_msg = _self.noise.decryptMessage(inti);
@@ -105,18 +105,18 @@ module.exports.CommandoClient = CommandoClient;
 // Initialize The client
 // =======================================================================
 // Mainnet Settings
-// const NODE_ID = '02765a7196c191f5ee0f17382a4ec8a4b106f8fb7f299c9138375840da5218277d';
-// const ADDRESS = '128.199.202.168';
+// const NODE_ID = '02765a7...77d';
+// const ADDRESS = 'pu.bl.ic.ip'; //'lo.c.al.ip';
 // const PORT = '5001';
-// const RUNE = 'g5c4LNf3r2pCiWvPHY64QostF9ysT0jkPiQUTmvL_tc9Mw==';
+// const RUNE = 'eYDwz...Uk9MA==';
 // const LOCAL_SECRET_KEY = 'ea8d3091934f2c86c216370f0206acaaa2ee12462387743c358ca5f0245bf561';
 // const INIT_MESSAGE = '00100000000580082a6aa201206fe28c0ab6f1b372c1a6a246ae63f74f931e8365e15a089c68d6190000000000';
 
 // Testnet Settings
-const NODE_ID = '031844beb16bf8dd8c7bc30588b8c37b36e62b71c6e812e9b6d976c0a57e151be2';
-const ADDRESS = '69.122.24.206'; //'192.168.1.11';
+const NODE_ID = '031844beb...7e151be2';
+const ADDRESS = 'pu.bl.ic.ip'; //'lo.c.al.ip';
 const PORT = '5050';
-const RUNE = 'eYDwzcBwaCehon-iyQy_dqSYrPkEE8K_-mMGzdoskUk9MA==';
+const RUNE = 'g5c4LNf3r2p...tc9Mw==';
 const LOCAL_SECRET_KEY = 'ea8d3091934f2c86c216370f0206acaaa2ee12462387743c358ca5f0245bf561';
 const INIT_MESSAGE = '00100000000580082a6aa2012043497fd7f826957108f4a30fd9cec3aeba79972084e90ead01ea330900000000';
 
