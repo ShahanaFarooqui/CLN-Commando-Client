@@ -55,31 +55,21 @@ class CommandoClient extends EventEmitter {
                     var Act3 = _self.noise.initiatorAct3();
                     _self.socket.send(Act3);
                     console.log('Connection Established!');
-                } else if(data.length === 83) {
-                    var len = _self.noise.decryptLength(data.slice(0,18));
-                    var inti = data.slice(18,18+len+16);
-                    let init_msg = _self.noise.decryptMessage(inti);
-                    var pref = init_msg.slice(0,2).toString('hex');
-                    init_msg = init_msg.slice(2);
-                    if(pref = '0010'){
+                } else {
+                    let len = _self.noise.decryptLength(data.slice(0,18));
+                    let init_msg = _self.noise.decryptMessage(data.slice(18,18+len+16));
+                    let pref = init_msg.slice(0,2).toString('hex');
+                    let msg = init_msg.slice(2);
+                    if(pref === '0010'){
                         _self.socket.send(_self.noise.encryptMessage(Buffer.from(initMessage,'hex')));
                         console.log('Initial Message Sent!');
                         resolve(true);
-                    }
-                    else if(pref = '0011'){
-                        console.error(init_msg);
+                    } else if(pref === '0011'){
+                        console.error(msg);
                         _self.socket.close(1000,'Delibrate Closing After Error!');
-                        _self.emit('error', {error: init_msg});
-                    }
-                } else if(data.length === 76) {
-                    var len = _self.noise.decryptLength(data.slice(0,18));
-                    var msg = _self.noise.decryptMessage(data.slice(18,18+len+16)).toString('hex');
-                } else {
-                    var len=_self.noise.decryptLength(data.slice(0,18));
-                    var decr = _self.noise.decryptMessage(data.slice(18,18+len+16));
-                    var hdecr = decr.slice(0,2).toString('hex');
-                    if (hdecr === '4c4f' || hdecr === '594d') {
-                        _self.emit('success', decr.slice(10).toString());
+                        _self.emit('error', {error: msg});
+                    } else if (pref === '4c4f' || pref === '594d') {
+                        _self.emit('success', init_msg.slice(10).toString());
                     }
                 }
             });
@@ -92,7 +82,7 @@ class CommandoClient extends EventEmitter {
         this.reqcount++;
         const command = {"method": method, "rune": this.rune, "params": args, "id": this.reqcount};
         this.connectionPromise.then((res) => {
-            _self.socket.send(_self.noise.encryptMessage(Buffer.concat([Buffer.from('4c4f','hex'),Buffer.from([0,0,0,0,0,0,0,0]) ,Buffer.from(JSON.stringify(command))])));
+            _self.socket.send(_self.noise.encryptMessage(Buffer.concat([Buffer.from('4c4f','hex'), Buffer.from([0,0,0,0,0,0,0,0]), Buffer.from(JSON.stringify(command))])));
         });
     }
 
@@ -117,9 +107,9 @@ const NODE_ID = '031844beb...7e151be2';
 const ADDRESS = 'pu.bl.ic.ip'; //'lo.c.al.ip';
 const PORT = '5050';
 const RUNE = 'g5c4LNf3r2p...tc9Mw==';
-const LOCAL_SECRET_KEY = 'ea8d3091934f2c86c216370f0206acaaa2ee12462387743c358ca5f0245bf561';
-const INIT_MESSAGE = '00100000000580082a6aa2012043497fd7f826957108f4a30fd9cec3aeba79972084e90ead01ea330900000000';
 
+const LOCAL_SECRET_KEY = 'ea8d3091934f2c86c216370f0206acaaa2ee12462387743c358ca5f0245bf561';
+const INIT_MESSAGE = '001000000000';
 let commandoClient = new CommandoClient(NODE_ID, ADDRESS, PORT, RUNE, LOCAL_SECRET_KEY, INIT_MESSAGE);
 commandoClient.call('getinfo', []);
 commandoClient.call('feerates', ['perkw']);
@@ -129,4 +119,4 @@ commandoClient.call('signmessage', ['Testing Sign Message Via Commando']);
 commandoClient.call('getinfos', []);
 
 commandoClient.on('success', res => console.log('Response: \n' + res));
-commandoClient.on('error', err => console.error('Error: \n' + err));
+commandoClient.on('error', err => console.error('Error: \n' + JSON.stringify(err)));
