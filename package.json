@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "dependencies": {
+    "@types/node": "^18.11.17",
+    "crypto": "^1.0.1",
     "js-sha256": "^0.9.0",
+    "lnmessage": "^0.0.14",
+    "lnsocket": "^0.3.2",
     "secp256k1": "^4.0.3",
     "ws": "^8.8.0"
   }
