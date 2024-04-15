@@ -3,4 +3,4 @@ Core Lightning Commando Client
 
 # How to Run
 - npm install
-- node commando-client.js
+- node lnmessage-client.js

@@ -2,11 +2,14 @@
   "name": "cln-commando-client",
   "version": "0.0.0",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@types/node": "^18.11.17",
     "crypto": "^1.0.1",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.2.0",
     "js-sha256": "^0.9.0",
-    "lnmessage": "^0.0.14",
+    "lnmessage": "^0.2.7",
     "lnsocket": "^0.3.2",
     "secp256k1": "^4.0.3",
     "ws": "^8.8.0"

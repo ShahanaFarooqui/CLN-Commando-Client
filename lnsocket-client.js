@@ -1,12 +1,13 @@
-import LNSocket from 'lnsocket';
+const LNSocket = require('lnsocket');
+// import LNSocket from 'lnsocket';
 
 async function go() {
 	const ln = await LNSocket();
 	ln.genkey();
 
-	await ln.connect_and_init("02f4df91118f943f07af246282f4af3c9dab08ed176980def21215070c457ba2b9", "wss://127.0.0.1:5001");
+	await ln.connect_and_init("025323ec7b4ea37bd89f4175705f73acb7c0f4a15cb434c94383e9c3afcb231426", "127.0.0.1:5019");
 	
-	const rune = "SnG46kWc3a3qJPcEl0CDvIHsShYqIavwDLAcnQ3qRlM9MQ==";
+	const rune = "ZrAKX361xKHHcuO2MAuWY1LofVR8904APzkhDBd57BE9MA==";
 	const res = await ln.rpc({ method: "getinfo", rune });
 	
 	ln.destroy();
